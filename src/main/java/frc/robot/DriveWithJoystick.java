@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 
+import static frc.robot.Constants.DriveWithJoystick.*;
+
 public class DriveWithJoystick {
     private DriveTrain driveTrain;
     private XboxController controller;
@@ -12,19 +14,15 @@ public class DriveWithJoystick {
     }
 
     public void execute() {
-        double rightTriggerInput = Math.pow(this.controller.getRightTriggerAxis(), 2.0);
-        double leftTriggerInput = Math.pow(this.controller.getLeftTriggerAxis(), 2.0);
-        double rotationInput = (this.controller.getLeftX() >= 0.0 ? 1.0 : -1.0) * Math.pow(this.controller.getLeftX(), 2.0);
-        
-        double speed = 0.0;
-        double rotation = rotationInput * Constants.ROTATION;
+        double leftTriggerInput = Math.pow(this.controller.getLeftTriggerAxis(), 2); // Moving backward
+        double rightTriggerInput = Math.pow(this.controller.getRightTriggerAxis(), 2); // Moving forward
+        double rotationInput = Math.signum(this.controller.getLeftX()) * Math.pow(this.controller.getLeftX(), 2);
 
-        if (rightTriggerInput > leftTriggerInput) { // Moving forward
-            speed = rightTriggerInput * Constants.SPEED;
-        } else if (rightTriggerInput < leftTriggerInput) { // Moving backward
-            speed = leftTriggerInput * -Constants.SPEED;
-        }
+        double direction = Math.max(leftTriggerInput, rightTriggerInput);
+        double sign = leftTriggerInput > rightTriggerInput ? -1 : 1;
+        double speed = direction * sign * SPEED_ADJUSTMENT;
+        double rotation = rotationInput * ROTATION_ADJUSTMENT;
 
-        this.driveTrain.curvatureInput(speed, rotation, !this.controller.getBButton());
+        this.driveTrain.move(speed, rotation, !this.controller.getBButton());
     }
 }

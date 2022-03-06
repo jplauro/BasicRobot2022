@@ -9,9 +9,11 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 
+import static frc.robot.Constants.DriveWithJoystick.*;
+
 public class Robot extends TimedRobot {
   private DriveTrain driveTrain = new DriveTrain();
-  private XboxController controller = new XboxController(Constants.CONTROLLER_PORT);
+  private XboxController controller = new XboxController(CONTROLLER_PORT);
   private DriveWithJoystick driveWithJoystick;
 
   @Override

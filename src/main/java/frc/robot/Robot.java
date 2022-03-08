@@ -12,22 +12,22 @@ import edu.wpi.first.wpilibj.XboxController;
 import static frc.robot.Constants.DriveWithJoystick.*;
 
 public class Robot extends TimedRobot {
-  private DriveTrain driveTrain = new DriveTrain();
-  private XboxController controller = new XboxController(CONTROLLER_PORT);
-  private DriveWithJoystick driveWithJoystick;
+    private CANSparkMaxDriveTrain driveTrain = new CANSparkMaxDriveTrain();
+    private XboxController controller = new XboxController(CONTROLLER_PORT);
+    private DriveWithJoystick driveWithJoystick;
 
-  @Override
-  public void robotInit() {
-    this.driveWithJoystick = new DriveWithJoystick(this.driveTrain, this.controller);
-  }
+    @Override
+    public void robotInit() {
+        this.driveWithJoystick = new DriveWithJoystick(this.driveTrain, this.controller);
+    }
 
-  @Override
-  public void teleopPeriodic() {
-    this.driveWithJoystick.execute();
-  }
+    @Override
+    public void teleopPeriodic() {
+        this.driveWithJoystick.execute();
+    }
 
-  @Override
-  public void disabledInit() {
-    this.driveTrain.setAllModes(IdleMode.kCoast);
-  }
+    @Override
+    public void disabledInit() {
+        this.driveTrain.setAllModes(IdleMode.kCoast);
+    }
 }

@@ -70,7 +70,15 @@ public abstract class DriveTrain {
         }
     }
 
-    public void drive(double speed, double rotation, boolean allowTurnInPlace) {
+    public void arcadeDrive(double speed, double rotation, boolean squareInputs) {
+        this.diffDrive.arcadeDrive(speed, rotation);
+    }
+
+    public void curvatureDrive(double speed, double rotation, boolean allowTurnInPlace) {
         this.diffDrive.curvatureDrive(speed, rotation, allowTurnInPlace);
+    }
+
+    public void tankDrive(double leftSpeed, double rightSpeed, boolean squareInputs) {
+        this.diffDrive.tankDrive(leftSpeed, rightSpeed, squareInputs);
     }
 }

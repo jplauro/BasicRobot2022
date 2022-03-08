@@ -3,6 +3,8 @@ package frc.robot;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.DriveWithJoystick.DriveMode;
+
 public class Constants {
     public static class DriveTrain {
         public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
@@ -23,5 +25,7 @@ public class Constants {
         public static final int CONTROLLER_PORT = 0;
         public static final double SPEED_ADJUSTMENT = 0.7;
         public static final double ROTATION_ADJUSTMENT = -0.6;
+        public static final DriveMode DRIVE_MODE = DriveMode.CURVATURE;
+        public static final boolean SQUARE_INPUTS = true;
     }
 }

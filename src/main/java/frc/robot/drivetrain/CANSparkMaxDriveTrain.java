@@ -1,26 +1,36 @@
-package frc.robot;
+package frc.robot.drivetrain;
 
 import static frc.robot.Constants.DriveTrain.CANSparkMaxDriveTrain.*;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+
 public class CANSparkMaxDriveTrain extends DriveTrain {
-    private enum CANSparkMaxMotor {
-        FRONT_LEFT(Motor.FRONT_LEFT),
-        REAR_LEFT(Motor.REAR_LEFT),
-        FRONT_RIGHT(Motor.FRONT_RIGHT),
-        REAR_RIGHT(Motor.REAR_RIGHT);
+    private class CANSparkMaxMotor implements IMotor {
+        private final CANSparkMax motor;
+        private final RelativeEncoder encoder;
 
-        private final CANSparkMax MOTOR;
-        private final RelativeEncoder ENCODER;
+        public CANSparkMaxMotor(MotorController motor) {
+            this.motor = (CANSparkMax) motor;
+            this.encoder = this.motor.getEncoder();
+        }
 
-        private CANSparkMaxMotor(Motor motor) {
-            this.MOTOR = (CANSparkMax) motor.MOTOR;
-            this.ENCODER = this.MOTOR.getEncoder();
+        public CANSparkMax getMotor() {
+            return motor;
+        }
+
+        public RelativeEncoder getEncoder() {
+            return encoder;
         }
     }
+
+    private Map<Motor, CANSparkMaxMotor> canSparkMaxMotors = new EnumMap<>(Motor.class);
 
     public CANSparkMaxDriveTrain() {
         super(
@@ -30,16 +40,18 @@ public class CANSparkMaxDriveTrain extends DriveTrain {
             new CANSparkMax(Motor.REAR_RIGHT.ID, MOTOR_TYPE)
         );
 
-        for (CANSparkMaxMotor motor : CANSparkMaxMotor.values()) {
-            motor.MOTOR.restoreFactoryDefaults();
-            motor.MOTOR.setIdleMode(IDLE_MODE);
-            motor.MOTOR.setOpenLoopRampRate(OPEN_LOOP_RAMP_RATE);
-            motor.MOTOR.setSmartCurrentLimit(CURRENT_LIMIT);
+        for (Motor motor : Motor.values()) {
+            CANSparkMaxMotor canSparkMaxMotor = new CANSparkMaxMotor(motor.MOTOR);
+            canSparkMaxMotors.put(motor, canSparkMaxMotor);
+            canSparkMaxMotor.getMotor().restoreFactoryDefaults();
+            canSparkMaxMotor.getMotor().setIdleMode(IDLE_MODE);
+            canSparkMaxMotor.getMotor().setOpenLoopRampRate(OPEN_LOOP_RAMP_RATE);
+            canSparkMaxMotor.getMotor().setSmartCurrentLimit(CURRENT_LIMIT);
         }
     }
 
     public CANSparkMax getMotor(Motor motor) {
-        return CANSparkMaxMotor.valueOf(motor.name()).MOTOR;
+        return canSparkMaxMotors.get(motor).getMotor();
     }
 
     public IdleMode getMode(Motor motor) {
@@ -71,7 +83,7 @@ public class CANSparkMaxDriveTrain extends DriveTrain {
     }
 
     public RelativeEncoder getEncoder(Motor motor) {
-        return CANSparkMaxMotor.valueOf(motor.name()).ENCODER;
+        return canSparkMaxMotors.get(motor).getEncoder();
     }
 
     public double getEncoderPosition(Motor motor) {

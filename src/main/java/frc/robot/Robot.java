@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.drivetrain.CANSparkMaxDriveTrain;
 
 public class Robot extends TimedRobot {
     private CANSparkMaxDriveTrain driveTrain = new CANSparkMaxDriveTrain();

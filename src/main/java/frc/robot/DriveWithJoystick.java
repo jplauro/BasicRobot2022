@@ -1,8 +1,8 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
-
 import static frc.robot.Constants.DriveWithJoystick.*;
+
+import edu.wpi.first.wpilibj.XboxController;
 
 public class DriveWithJoystick {
     private CANSparkMaxDriveTrain driveTrain;

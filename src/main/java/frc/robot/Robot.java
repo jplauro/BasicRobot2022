@@ -4,12 +4,12 @@
 
 package frc.robot;
 
+import static frc.robot.Constants.DriveWithJoystick.*;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-
-import static frc.robot.Constants.DriveWithJoystick.*;
 
 public class Robot extends TimedRobot {
     private CANSparkMaxDriveTrain driveTrain = new CANSparkMaxDriveTrain();

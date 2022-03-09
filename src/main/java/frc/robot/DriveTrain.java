@@ -1,71 +1,60 @@
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.List;
+import static frc.robot.Constants.DriveTrain.*;
+import static frc.robot.Constants.DriveTrain.MotorIDs.*;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
-import static frc.robot.Constants.DriveTrain.*;
-import static frc.robot.Constants.DriveTrain.MotorIDs.*;
-
 public abstract class DriveTrain {
     public DifferentialDrive diffDrive;
-    public MotorController frontLeftMotor, rearLeftMotor, frontRightMotor, rearRightMotor;
     public MotorControllerGroup leftMotors, rightMotors;
-    public List<MotorController> motors = new ArrayList<>();
-
-    public enum Motors {
+    
+    public enum Motor {
         FRONT_LEFT(FRONT_LEFT_MOTOR_ID),
         REAR_LEFT(REAR_LEFT_MOTOR_ID),
         FRONT_RIGHT(FRONT_RIGHT_MOTOR_ID),
         REAR_RIGHT(REAR_RIGHT_MOTOR_ID);
 
         public final int ID;
+        public MotorController MOTOR = null;
 
-        private Motors(int ID) {
+        private Motor(int ID) {
             this.ID = ID;
         }
     }
 
     public DriveTrain(MotorController frontLeftMotor, MotorController rearLeftMotor,
     MotorController frontRightMotor, MotorController rearRightMotor) {
-        this.frontLeftMotor = frontLeftMotor;
-        this.rearLeftMotor = rearLeftMotor;
-        this.frontRightMotor = frontLeftMotor;
-        this.rearRightMotor = rearRightMotor;
-
-        this.motors.addAll(List.of(
-            this.frontLeftMotor, 
-            this.rearLeftMotor,
-            this.frontRightMotor, 
-            this.rearRightMotor
-        ));
+        Motor.FRONT_LEFT.MOTOR = frontLeftMotor;
+        Motor.REAR_LEFT.MOTOR = rearLeftMotor;
+        Motor.FRONT_RIGHT.MOTOR = frontRightMotor;
+        Motor.REAR_RIGHT.MOTOR = rearRightMotor;
         
-        this.leftMotors = new MotorControllerGroup(this.frontLeftMotor, this.rearLeftMotor);
-        this.rightMotors = new MotorControllerGroup(this.frontRightMotor, this.rearRightMotor);
+        this.leftMotors = new MotorControllerGroup(frontLeftMotor, rearLeftMotor);
+        this.rightMotors = new MotorControllerGroup(frontRightMotor, rearRightMotor);
 
         this.diffDrive = new DifferentialDrive(this.leftMotors, this.rightMotors);
         this.diffDrive.setDeadband(DEADBAND);
         this.rightMotors.setInverted(true);
     }
 
-    public abstract MotorController getMotor(Motors motor);
+    public abstract MotorController getMotor(Motor motor);
 
-    public double getSpeed(Motors motor) {
+    public double getSpeed(Motor motor) {
         return this.getMotor(motor).get();
     }
 
-    public void setSpeed(Motors motor, double speed) {
+    public void setSpeed(Motor motor, double speed) {
         // Ensures that the speed stays between -1 and 1
         speed = MathUtil.clamp(speed, -1, 1);
         this.getMotor(motor).set(speed);
     }
 
     public void setAllSpeeds(double speed) {
-        for (Motors motor : Motors.values()) {
+        for (Motor motor : Motor.values()) {
             this.setSpeed(motor, speed);
         }
     }

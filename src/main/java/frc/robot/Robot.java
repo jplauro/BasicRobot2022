@@ -15,16 +15,16 @@ import frc.robot.drivetrain.CANSparkMaxDriveTrain;
 public class Robot extends TimedRobot {
     private CANSparkMaxDriveTrain driveTrain = new CANSparkMaxDriveTrain();
     private XboxController controller = new XboxController(CONTROLLER_PORT);
-    private DriveWithJoystick driveWithJoystick;
+    private DriveWithController driveWithController;
 
     @Override
     public void robotInit() {
-        this.driveWithJoystick = new DriveWithJoystick(this.driveTrain, this.controller);
+        this.driveWithController = new DriveWithController(this.driveTrain, this.controller);
     }
 
     @Override
     public void teleopPeriodic() {
-        this.driveWithJoystick.execute();
+        this.driveWithController.execute();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package frc.robot.drivetrain;
 
+import static frc.robot.Constants.DriveTrain.*;
 import static frc.robot.Constants.DriveTrain.CANSparkMaxDriveTrain.*;
 
 import java.util.EnumMap;
@@ -22,11 +23,11 @@ public class CANSparkMaxDriveTrain extends DriveTrain {
         }
 
         public CANSparkMax getMotor() {
-            return motor;
+            return this.motor;
         }
 
         public RelativeEncoder getEncoder() {
-            return encoder;
+            return this.encoder;
         }
     }
 

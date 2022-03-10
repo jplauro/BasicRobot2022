@@ -4,8 +4,9 @@ import static frc.robot.Constants.DriveWithJoystick.*;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.drivetrain.CANSparkMaxDriveTrain;
+import frc.robot.drivetrain.Motor;
 
-public class DriveWithJoystick {
+public class DriveWithController {
     private CANSparkMaxDriveTrain driveTrain;
     private XboxController controller;
 
@@ -13,7 +14,7 @@ public class DriveWithJoystick {
         ARCADE, CURVATURE, TANK;
     }
 
-    public DriveWithJoystick(CANSparkMaxDriveTrain driveTrain, XboxController controller) {
+    public DriveWithController(CANSparkMaxDriveTrain driveTrain, XboxController controller) {
         this.driveTrain = driveTrain;
         this.controller = controller;
     }
@@ -22,10 +23,10 @@ public class DriveWithJoystick {
         double power = SQUARE_INPUTS ? 2 : 1;
         double leftTriggerInput = -Math.pow(this.controller.getLeftTriggerAxis(), power); // Moving backward
         double rightTriggerInput = Math.pow(this.controller.getRightTriggerAxis(), power); // Moving forward
-        double leftJoystickInput = this.controller.getLeftY(); // Moving left
-        double rightJoystickInput = this.controller.getRightY(); // Moving right
+        double leftJoystickInput = -this.controller.getLeftY(); // Moving left
+        double rightJoystickInput = -this.controller.getRightY(); // Moving right
         double rotationInput = Math.signum(this.controller.getLeftX()) * Math.pow(this.controller.getLeftX(), power);
-
+        
         double speed = Math.max(-leftTriggerInput, rightTriggerInput) * SPEED_ADJUSTMENT;
         double leftSpeed = leftJoystickInput * SPEED_ADJUSTMENT;
         double rightSpeed = rightJoystickInput * SPEED_ADJUSTMENT;

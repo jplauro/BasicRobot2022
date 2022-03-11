@@ -4,7 +4,6 @@ import static frc.robot.Constants.DriveWithJoystick.*;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.drivetrain.CANSparkMaxDriveTrain;
-import frc.robot.drivetrain.Motor;
 
 public class DriveWithController {
     private CANSparkMaxDriveTrain driveTrain;

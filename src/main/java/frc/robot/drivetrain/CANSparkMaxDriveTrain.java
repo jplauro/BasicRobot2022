@@ -51,8 +51,12 @@ public class CANSparkMaxDriveTrain extends DriveTrain {
         }
     }
 
+    private CANSparkMaxMotor getCANSparkMaxMotor(Motor motor) {
+        return this.canSparkMaxMotors.get(motor);
+    }
+
     public CANSparkMax getMotor(Motor motor) {
-        return canSparkMaxMotors.get(motor).getMotor();
+        return this.getCANSparkMaxMotor(motor).getMotor();
     }
 
     public IdleMode getMode(Motor motor) {
@@ -84,7 +88,7 @@ public class CANSparkMaxDriveTrain extends DriveTrain {
     }
 
     public RelativeEncoder getEncoder(Motor motor) {
-        return canSparkMaxMotors.get(motor).getEncoder();
+        return this.getCANSparkMaxMotor(motor).getEncoder();
     }
 
     public double getEncoderPosition(Motor motor) {

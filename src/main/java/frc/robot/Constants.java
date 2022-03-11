@@ -10,14 +10,14 @@ public class Constants {
     public static class DriveTrain {
         public static final double DEADBAND = 0.05;
         public static final double OPEN_LOOP_RAMP_RATE = 0.2;
+        public static final int CURRENT_LIMIT = 75;
 
         public static class CANSparkMaxDriveTrain {
             public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
             public static final IdleMode IDLE_MODE = IdleMode.kBrake;
-            public static final int CURRENT_LIMIT = 75;
         }
 
-        public static class VictorSPXDriveTrain {
+        public static class PhoenixDriveTrain {
             public static final NeutralMode NEUTRAL_MODE = NeutralMode.Brake;
         }
 

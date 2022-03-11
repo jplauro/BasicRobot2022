@@ -11,7 +11,7 @@ public abstract class DriveTrain {
     public DifferentialDrive diffDrive;
     public MotorControllerGroup leftMotors, rightMotors;
 
-    public interface IMotor {        
+    public interface IMotor {
         MotorController getMotor();
     }
 

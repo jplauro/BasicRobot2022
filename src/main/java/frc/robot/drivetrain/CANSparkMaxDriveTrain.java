@@ -50,11 +50,12 @@ public class CANSparkMaxDriveTrain extends DriveTrain {
             canSparkMaxMotor.getMotor().setSmartCurrentLimit(CURRENT_LIMIT);
         }
     }
-
+    
     private CANSparkMaxMotor getCANSparkMaxMotor(Motor motor) {
         return this.canSparkMaxMotors.get(motor);
     }
 
+    @Override
     public CANSparkMax getMotor(Motor motor) {
         return this.getCANSparkMaxMotor(motor).getMotor();
     }

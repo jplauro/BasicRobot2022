@@ -37,6 +37,7 @@ public class VictorSPXDriveTrain extends PhoenixDriveTrain {
         }
     }
 
+    @Override
     public VictorSPX getPhoenixMotor(Motor motor) {
         return this.victorSPXMotors.get(motor).getVictorSPXMotor();
     }

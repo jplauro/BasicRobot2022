@@ -6,29 +6,33 @@ package frc.robot;
 
 import static frc.robot.Constants.DriveWithJoystick.*;
 
-import com.revrobotics.CANSparkMax.IdleMode;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.drivetrain.CANSparkMaxDriveTrain;
+import frc.robot.drivetrain.DriveTrain;
+import frc.robot.drivetrain.PhoenixDriveTrain;
 
 public class Robot extends TimedRobot {
-    private CANSparkMaxDriveTrain driveTrain = new CANSparkMaxDriveTrain();
+    private DriveTrain driveTrain = new CANSparkMaxDriveTrain();
     private XboxController controller = new XboxController(CONTROLLER_PORT);
-    private DriveWithController driveWithController;
-
-    @Override
-    public void robotInit() {
-        this.driveWithController = new DriveWithController(this.driveTrain, this.controller);
-    }
+    private Dashboard dashboard = new Dashboard(this.driveTrain);
+    private DriveWithController driveWithController = new DriveWithController(
+        this.driveTrain, this.controller, this.dashboard);
 
     @Override
     public void teleopPeriodic() {
+        this.dashboard.execute();
         this.driveWithController.execute();
     }
 
     @Override
     public void disabledInit() {
-        this.driveTrain.setAllModes(IdleMode.kCoast);
+        if (this.driveTrain instanceof CANSparkMaxDriveTrain) {
+            CANSparkMaxDriveTrain driveTrain = (CANSparkMaxDriveTrain) this.driveTrain;
+            driveTrain.setAllModes(Constants.DriveTrain.CANSparkMaxDriveTrain.DISABLE_MODE);
+        } else if (this.driveTrain instanceof PhoenixDriveTrain) {
+            PhoenixDriveTrain driveTrain = (PhoenixDriveTrain) this.driveTrain;
+            driveTrain.setAllModes(Constants.DriveTrain.PhoenixDriveTrain.DISABLE_MODE);
+        }
     }
 }

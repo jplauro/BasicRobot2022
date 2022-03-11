@@ -15,10 +15,12 @@ public class Constants {
         public static class CANSparkMaxDriveTrain {
             public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
             public static final IdleMode IDLE_MODE = IdleMode.kBrake;
+            public static final IdleMode DISABLE_MODE = IdleMode.kCoast;
         }
 
         public static class PhoenixDriveTrain {
             public static final NeutralMode NEUTRAL_MODE = NeutralMode.Brake;
+            public static final NeutralMode DISABLE_MODE = NeutralMode.Coast;
         }
 
         public static class MotorIDs {
@@ -31,9 +33,9 @@ public class Constants {
 
     public static class DriveWithJoystick {
         public static final int CONTROLLER_PORT = 0;
+        public static final DriveMode DRIVE_MODE = DriveMode.CURVATURE;
         public static final double SPEED_ADJUSTMENT = 0.7;
         public static final double ROTATION_ADJUSTMENT = -0.6;
-        public static final DriveMode DRIVE_MODE = DriveMode.CURVATURE;
         public static final boolean SQUARE_INPUTS = true;
     }
 }

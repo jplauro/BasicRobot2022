@@ -50,6 +50,7 @@ public abstract class PhoenixDriveTrain extends DriveTrain {
         }
     }
 
+    @Override
     public PhoenixMotorAdapter getMotor(Motor motor) {
         return this.phoenixMotors.get(motor).getMotor();
     }

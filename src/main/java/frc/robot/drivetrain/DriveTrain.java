@@ -8,8 +8,12 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 public abstract class DriveTrain {
-    public DifferentialDrive diffDrive;
-    public MotorControllerGroup leftMotors, rightMotors;
+    private DifferentialDrive diffDrive;
+    private MotorControllerGroup leftMotors, rightMotors;
+
+    public enum MotorGroup {
+        LEFT, RIGHT;
+    }
 
     public interface IMotor {
         MotorController getMotor();
@@ -31,6 +35,16 @@ public abstract class DriveTrain {
     }
 
     public abstract MotorController getMotor(Motor motor);
+
+    public DifferentialDrive getDiffDrive() {
+        return this.diffDrive;
+    }
+
+    public MotorControllerGroup getMotorGroup(MotorGroup motorGroup) {
+        if (motorGroup == MotorGroup.LEFT) {
+            return this.leftMotors;
+        } else return this.rightMotors;
+    }
 
     public double getSpeed(Motor motor) {
         return this.getMotor(motor).get();

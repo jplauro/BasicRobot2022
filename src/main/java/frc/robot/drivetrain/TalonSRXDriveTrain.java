@@ -51,6 +51,7 @@ public class TalonSRXDriveTrain extends PhoenixDriveTrain {
         return this.talonSRXMotors.get(motor);
     }
     
+    @Override
     public TalonSRX getPhoenixMotor(Motor motor) {
         return this.getTalonSRXMotor(motor).getTalonSRXMotor();
     }

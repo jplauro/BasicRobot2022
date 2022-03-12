@@ -28,17 +28,22 @@ public class DriveWithController {
 
     public void execute() {
         double power = this.dashboard.getSquareInputs() ? 2 : 1;
-        double leftTriggerInput = -Math.pow(this.controller.getLeftTriggerAxis(), power); // Moving backward
+        double leftTriggerInput = Math.pow(this.controller.getLeftTriggerAxis(), power); // Moving backward
         double rightTriggerInput = Math.pow(this.controller.getRightTriggerAxis(), power); // Moving forward
-        double leftJoystickInput = -this.controller.getLeftY(); // Moving left
-        double rightJoystickInput = -this.controller.getRightY(); // Moving right
-        double rotationInput = Math.signum(this.controller.getLeftX()) * Math.pow(this.controller.getLeftX(), power);
-        
-        double speed = Math.max(-leftTriggerInput, rightTriggerInput) * this.dashboard.getSpeedAdjustment();
-        double leftSpeed = leftJoystickInput * this.dashboard.getSpeedAdjustment();
-        double rightSpeed = rightJoystickInput * this.dashboard.getSpeedAdjustment();
-        double rotation = rotationInput * this.dashboard.getRotationAdjustment();
+        double leftJoystickXInput = -this.controller.getLeftX(); // Rotating
+        double leftJoystickYInput = -this.controller.getLeftY(); // Moving left
+        double rightJoystickYInput = -this.controller.getRightY(); // Moving right
+        double rotationInput = Math.pow(leftJoystickXInput, power);
 
+        // Keeping the original sign of the input only if squaring
+        if (power == 2) rotationInput *= Math.signum(leftJoystickXInput);
+        
+        double direction = leftTriggerInput > rightTriggerInput ? -leftTriggerInput : rightTriggerInput;
+        double speed = direction * this.dashboard.getSpeedAdjustment();
+        double leftSpeed = leftJoystickYInput * this.dashboard.getSpeedAdjustment();
+        double rightSpeed = rightJoystickYInput * this.dashboard.getSpeedAdjustment();
+        double rotation = rotationInput * this.dashboard.getRotationAdjustment();
+        
         switch (this.dashboard.getDriveMode()) {
             case ARCADE:
                 // Squared inputs is always false to prevent squaring twice

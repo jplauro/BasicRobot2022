@@ -8,17 +8,25 @@ import static frc.robot.Constants.DriveWithJoystick.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.drivetrain.CANSparkMaxDriveTrain;
 import frc.robot.drivetrain.DriveTrain;
-import frc.robot.drivetrain.PhoenixDriveTrain;
+import frc.robot.drivetrain.DriveTrainInterfaces.IMotorMode;
+import frc.robot.drivetrain.impl.CANSparkMaxDriveTrain;
 
 public class Robot extends TimedRobot {
-    private DriveTrain driveTrain = new CANSparkMaxDriveTrain();
-    private XboxController controller = new XboxController(CONTROLLER_PORT);
-    private Dashboard dashboard = new Dashboard(this.driveTrain);
-    private DriveWithController driveWithController = new DriveWithController(
-        this.driveTrain, this.controller, this.dashboard);
-
+    private DriveTrain driveTrain;
+    private XboxController controller;
+    private Dashboard dashboard;
+    private DriveWithController driveWithController;
+    
+    @Override
+    public void robotInit() {
+        this.driveTrain = new CANSparkMaxDriveTrain();
+        this.controller = new XboxController(CONTROLLER_PORT);
+        this.dashboard = new Dashboard(this.driveTrain);
+        this.driveWithController = new DriveWithController(
+            this.driveTrain, this.controller, this.dashboard);
+    }
+    
     @Override
     public void teleopPeriodic() {
         this.dashboard.execute();
@@ -27,12 +35,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        if (this.driveTrain instanceof CANSparkMaxDriveTrain) {
-            CANSparkMaxDriveTrain driveTrain = (CANSparkMaxDriveTrain) this.driveTrain;
-            driveTrain.setAllModes(Constants.DriveTrain.CANSparkMaxDriveTrain.DISABLE_MODE);
-        } else if (this.driveTrain instanceof PhoenixDriveTrain) {
-            PhoenixDriveTrain driveTrain = (PhoenixDriveTrain) this.driveTrain;
-            driveTrain.setAllModes(Constants.DriveTrain.PhoenixDriveTrain.DISABLE_MODE);
+        if (this.driveTrain instanceof IMotorMode) {
+            IMotorMode driveTrain = (IMotorMode) this.driveTrain;
+            driveTrain.setAllModes(Constants.DriveTrain.DISABLE_MODE);
         }
     }
 }

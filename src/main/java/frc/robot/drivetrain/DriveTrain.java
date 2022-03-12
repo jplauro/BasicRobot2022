@@ -15,10 +15,6 @@ public abstract class DriveTrain {
         LEFT, RIGHT;
     }
 
-    public interface IMotor {
-        MotorController getMotor();
-    }
-
     public DriveTrain(MotorController frontLeftMotor, MotorController rearLeftMotor,
     MotorController frontRightMotor, MotorController rearRightMotor) {
         Motor.FRONT_LEFT.MOTOR = frontLeftMotor;
@@ -41,9 +37,12 @@ public abstract class DriveTrain {
     }
 
     public MotorControllerGroup getMotorGroup(MotorGroup motorGroup) {
-        if (motorGroup == MotorGroup.LEFT) {
-            return this.leftMotors;
-        } else return this.rightMotors;
+        switch (motorGroup) {
+            case LEFT:
+                return this.leftMotors;
+            default:
+                return this.rightMotors;
+        }
     }
 
     public double getSpeed(Motor motor) {

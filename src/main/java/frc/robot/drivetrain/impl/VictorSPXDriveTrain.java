@@ -1,4 +1,4 @@
-package frc.robot.drivetrain;
+package frc.robot.drivetrain.impl;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -6,6 +6,8 @@ import java.util.Map;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import frc.robot.drivetrain.Motor;
+import frc.robot.drivetrain.PhoenixDriveTrain;
 
 public class VictorSPXDriveTrain extends PhoenixDriveTrain {
     private class VictorSPXMotor extends PhoenixMotor {

@@ -1,4 +1,4 @@
-package frc.robot.drivetrain;
+package frc.robot.drivetrain.impl;
 
 import static frc.robot.Constants.DriveTrain.*;
 
@@ -9,8 +9,11 @@ import com.ctre.phoenix.motorcontrol.SensorCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import frc.robot.drivetrain.Motor;
+import frc.robot.drivetrain.PhoenixDriveTrain;
+import frc.robot.drivetrain.DriveTrainInterfaces.IEncoder;
 
-public class TalonSRXDriveTrain extends PhoenixDriveTrain {
+public class TalonSRXDriveTrain extends PhoenixDriveTrain implements IEncoder {
     private class TalonSRXMotor extends PhoenixMotor {
         private final TalonSRX talonSRX;
         private final SensorCollection sensors;
@@ -60,15 +63,18 @@ public class TalonSRXDriveTrain extends PhoenixDriveTrain {
         return this.getTalonSRXMotor(motor).getSensors();
     }
 
+    @Override
     public double getEncoderPosition(Motor motor) {
         return this.getSensors(motor).getQuadraturePosition();
     }
 
-    public void setEncoderPosition(Motor motor, int position) {
-        this.getSensors(motor).setQuadraturePosition(position, 0);
+    @Override
+    public void setEncoderPosition(Motor motor, double position) {
+        this.getSensors(motor).setQuadraturePosition((int) position, 0);
     }
 
-    public void setAllEncoderPositions(int position) {
+    @Override
+    public void setAllEncoderPositions(double position) {
         for (Motor motor : Motor.values()) {
             this.setEncoderPosition(motor, position);
         }

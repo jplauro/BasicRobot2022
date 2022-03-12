@@ -6,9 +6,8 @@ import static frc.robot.Constants.DriveWithJoystick.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.DriveWithController.DriveMode;
-import frc.robot.drivetrain.CANSparkMaxDriveTrain;
 import frc.robot.drivetrain.DriveTrain;
-import frc.robot.drivetrain.PhoenixDriveTrain;
+import frc.robot.drivetrain.DriveTrainInterfaces.IOpenLoopRampRate;
 
 public class Dashboard {
     private DriveTrain driveTrain;
@@ -51,16 +50,10 @@ public class Dashboard {
             this.driveTrain.getDiffDrive().setDeadband(this.deadband);
         }
 
-        if (openLoopRampRate != this.openLoopRampRate) {
+        if (openLoopRampRate != this.openLoopRampRate && this.driveTrain instanceof IOpenLoopRampRate) {
             this.openLoopRampRate = openLoopRampRate;
-
-            if (this.driveTrain instanceof CANSparkMaxDriveTrain) {
-                CANSparkMaxDriveTrain driveTrain = (CANSparkMaxDriveTrain) this.driveTrain;
-                driveTrain.setAllOpenLoopRampRates(this.openLoopRampRate);
-            } else if (this.driveTrain instanceof PhoenixDriveTrain) {
-                PhoenixDriveTrain driveTrain = (PhoenixDriveTrain) this.driveTrain;
-                driveTrain.setAllOpenLoopRampRates(this.openLoopRampRate);
-            }
+            IOpenLoopRampRate driveTrain = (IOpenLoopRampRate) this.driveTrain;
+            driveTrain.setAllOpenLoopRampRates(this.openLoopRampRate);
         }
     }
 

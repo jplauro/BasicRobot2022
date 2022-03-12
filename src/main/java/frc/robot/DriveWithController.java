@@ -13,9 +13,7 @@ public class DriveWithController {
 
         @Override
         public String toString() {
-            // Make only the first letter of the name uppercase
-            String firstLetter = name().substring(0, 1).toUpperCase();
-            return firstLetter + name().substring(1).toLowerCase();
+            return Util.capitalize(name(), true);
         }
     }
 

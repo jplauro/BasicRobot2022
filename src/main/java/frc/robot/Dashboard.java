@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.DriveWithController.DriveMode;
 import frc.robot.drivetrain.DriveTrain;
-import frc.robot.drivetrain.DriveTrainInterfaces.IOpenLoopRampRate;
 
 public class Dashboard {
     private DriveTrain driveTrain;
@@ -21,7 +20,7 @@ public class Dashboard {
 
     public Dashboard(DriveTrain driveTrain) {
         this.driveTrain = driveTrain;
-        this.driveModeChooser.setDefaultOption(this.driveMode.toString(), this.driveMode);
+        this.driveModeChooser.setDefaultOption(DRIVE_MODE.toString(), DRIVE_MODE);
         
         for (DriveMode driveMode : DriveMode.values()) {
             if (driveMode != DRIVE_MODE) {
@@ -50,10 +49,9 @@ public class Dashboard {
             this.driveTrain.getDiffDrive().setDeadband(this.deadband);
         }
 
-        if (openLoopRampRate != this.openLoopRampRate && this.driveTrain instanceof IOpenLoopRampRate) {
+        if (openLoopRampRate != this.openLoopRampRate) {
             this.openLoopRampRate = openLoopRampRate;
-            IOpenLoopRampRate driveTrain = (IOpenLoopRampRate) this.driveTrain;
-            driveTrain.setAllOpenLoopRampRates(this.openLoopRampRate);
+            Util.convert(this.driveTrain).setAllOpenLoopRampRates(this.openLoopRampRate);
         }
     }
 

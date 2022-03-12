@@ -3,10 +3,12 @@ package frc.robot;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.DriveWithController.DriveMode;
+import frc.robot.Util.DriveTrainType;
 import frc.robot.drivetrain.MotorMode;
 
-public class Constants {
+public final class Constants {
     public static class DriveTrain {
+        public static final DriveTrainType DRIVE_TRAIN_TYPE = DriveTrainType.CANSparkMax;
         public static final double DEADBAND = 0.05;
         public static final double OPEN_LOOP_RAMP_RATE = 0.2;
         public static final int CURRENT_LIMIT = 75;

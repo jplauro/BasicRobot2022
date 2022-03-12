@@ -30,8 +30,6 @@ public abstract class DriveTrain {
         this.rightMotors.setInverted(true);
     }
 
-    public abstract MotorController getMotor(Motor motor);
-
     public DifferentialDrive getDiffDrive() {
         return this.diffDrive;
     }
@@ -40,10 +38,14 @@ public abstract class DriveTrain {
         switch (motorGroup) {
             case LEFT:
                 return this.leftMotors;
-            default:
+            case RIGHT:
                 return this.rightMotors;
+            default:
+                throw new AssertionError();
         }
     }
+
+    public abstract MotorController getMotor(Motor motor);
 
     public double getSpeed(Motor motor) {
         return this.getMotor(motor).get();

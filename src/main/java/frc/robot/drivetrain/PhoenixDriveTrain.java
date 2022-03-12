@@ -12,7 +12,7 @@ import frc.robot.drivetrain.DriveTrainInterfaces.IMotor;
 import frc.robot.drivetrain.DriveTrainInterfaces.IMotorMode;
 import frc.robot.drivetrain.DriveTrainInterfaces.IOpenLoopRampRate;
 
-public abstract class PhoenixDriveTrain extends DriveTrain implements IMotorMode, IOpenLoopRampRate{
+public abstract class PhoenixDriveTrain extends DriveTrain implements IMotorMode, IOpenLoopRampRate {
     public class PhoenixMotor implements IMotor {
         private final PhoenixMotorAdapter motor;
         private final BaseMotorController phoenixMotor;

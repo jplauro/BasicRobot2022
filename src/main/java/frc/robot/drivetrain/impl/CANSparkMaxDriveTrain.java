@@ -71,8 +71,10 @@ public class CANSparkMaxDriveTrain extends DriveTrain implements IMotorMode, IOp
         switch (this.getMotor(motor).getIdleMode()) {
             case kBrake:
                 return MotorMode.BRAKE;
-            default:
+            case kCoast:
                 return MotorMode.COAST;
+            default:
+                throw new AssertionError();
         }
     }
 

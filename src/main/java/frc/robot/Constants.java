@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import frc.robot.Dashboard.DashboardType;
 import frc.robot.DriveWithController.DriveMode;
 import frc.robot.Util.DriveTrainType;
 import frc.robot.drivetrain.MotorMode;
@@ -27,7 +28,16 @@ public final class Constants {
         }
     }
 
-    public static class DriveWithJoystick {
+    public static class Dashboard {
+        public static final DashboardType DASHBOARD_TYPE = DashboardType.Shuffleboard;
+
+        public static class Shuffleboard {
+            public static final String TAB_NAME = "SmartDashboard";
+            public static final boolean AUTO_SETUP = true;
+        }
+    }
+
+    public static class DriveWithController {
         public static final int CONTROLLER_PORT = 0;
         public static final DriveMode DRIVE_MODE = DriveMode.CURVATURE;
         public static final double SPEED_ADJUSTMENT = 0.7;

@@ -5,7 +5,7 @@
 package frc.robot;
 
 import static frc.robot.Constants.DriveTrain.*;
-import static frc.robot.Constants.DriveWithJoystick.*;
+import static frc.robot.Constants.DriveWithController.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;

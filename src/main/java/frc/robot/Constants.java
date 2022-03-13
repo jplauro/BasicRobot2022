@@ -6,10 +6,12 @@ import frc.robot.Dashboard.DashboardType;
 import frc.robot.DriveWithController.DriveMode;
 import frc.robot.Util.DriveTrainType;
 import frc.robot.drivetrain.MotorMode;
+import frc.robot.drivetrain.DriveTrain.DriveTrainMode;
 
 public final class Constants {
     public static class DriveTrain {
         public static final DriveTrainType DRIVE_TRAIN_TYPE = DriveTrainType.CANSparkMax;
+        public static final DriveTrainMode DRIVE_TRAIN_MODE = DriveTrainMode.GROUP;
         public static final double DEADBAND = 0.05;
         public static final double OPEN_LOOP_RAMP_RATE = 0.2;
         public static final int CURRENT_LIMIT = 75;

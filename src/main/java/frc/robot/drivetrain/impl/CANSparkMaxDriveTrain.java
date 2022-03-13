@@ -55,6 +55,13 @@ public class CANSparkMaxDriveTrain extends DriveTrain implements IMotorMode, IOp
             canSparkMaxMotor.getMotor().setOpenLoopRampRate(OPEN_LOOP_RAMP_RATE);
             canSparkMaxMotor.getMotor().setSmartCurrentLimit(CURRENT_LIMIT);
         }
+
+        if (DRIVE_TRAIN_MODE == DriveTrainMode.FOLLOW) {
+            canSparkMaxMotors.get(Motor.REAR_LEFT).getMotor()
+            .follow(canSparkMaxMotors.get(Motor.FRONT_LEFT).getMotor());
+            canSparkMaxMotors.get(Motor.REAR_RIGHT).getMotor()
+            .follow(canSparkMaxMotors.get(Motor.FRONT_RIGHT).getMotor());
+        }
     }
     
     private CANSparkMaxMotor getCANSparkMaxMotor(Motor motor) {

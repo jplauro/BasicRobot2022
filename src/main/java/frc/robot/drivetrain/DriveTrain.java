@@ -11,6 +11,10 @@ public abstract class DriveTrain {
     private DifferentialDrive diffDrive;
     private MotorControllerGroup leftMotors, rightMotors;
 
+    public enum DriveTrainMode {
+        GROUP, FOLLOW;
+    }
+
     public enum MotorGroup {
         LEFT, RIGHT;
     }
@@ -21,13 +25,24 @@ public abstract class DriveTrain {
         Motor.REAR_LEFT.MOTOR = rearLeftMotor;
         Motor.FRONT_RIGHT.MOTOR = frontRightMotor;
         Motor.REAR_RIGHT.MOTOR = rearRightMotor;
-        
+
         this.leftMotors = new MotorControllerGroup(frontLeftMotor, rearLeftMotor);
         this.rightMotors = new MotorControllerGroup(frontRightMotor, rearRightMotor);
 
-        this.diffDrive = new DifferentialDrive(this.leftMotors, this.rightMotors);
+        switch (DRIVE_TRAIN_MODE) {
+            case GROUP:
+                this.diffDrive = new DifferentialDrive(this.leftMotors, this.rightMotors);
+                this.rightMotors.setInverted(true);
+                break;
+            case FOLLOW:
+                this.diffDrive = new DifferentialDrive(frontLeftMotor, frontRightMotor);
+                frontRightMotor.setInverted(true);
+                break;
+            default:
+                throw new AssertionError();
+        }
+
         this.diffDrive.setDeadband(DEADBAND);
-        this.rightMotors.setInverted(true);
     }
 
     public DifferentialDrive getDiffDrive() {

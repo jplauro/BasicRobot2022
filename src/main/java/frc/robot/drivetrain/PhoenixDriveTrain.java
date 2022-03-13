@@ -51,6 +51,13 @@ public abstract class PhoenixDriveTrain extends DriveTrain implements IMotorMode
             phoenixMotor.getPhoenixMotor().setNeutralMode(IDLE_MODE.getNeutralMode());
             phoenixMotor.getPhoenixMotor().configOpenloopRamp(OPEN_LOOP_RAMP_RATE);
         }
+
+        if (DRIVE_TRAIN_MODE == DriveTrainMode.FOLLOW) {
+            phoenixMotors.get(Motor.REAR_LEFT).getPhoenixMotor()
+            .follow(phoenixMotors.get(Motor.FRONT_LEFT).getPhoenixMotor());
+            phoenixMotors.get(Motor.REAR_RIGHT).getPhoenixMotor()
+            .follow(phoenixMotors.get(Motor.FRONT_RIGHT).getPhoenixMotor());
+        }
     }
 
     @Override

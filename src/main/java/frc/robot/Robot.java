@@ -9,17 +9,17 @@ import static frc.robot.Constants.DriveWithController.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.drivetrain.DriveTrain;
+import frc.robot.drivetrain.impl.CANSparkMaxDriveTrain;
 
 public class Robot extends TimedRobot {
-    private DriveTrain driveTrain;
+    private CANSparkMaxDriveTrain driveTrain;
     private XboxController controller;
     private Dashboard dashboard;
     private DriveWithController driveWithController;
 
     @Override
     public void robotInit() {
-        this.driveTrain = Util.getDriveTrain().get();
+        this.driveTrain = new CANSparkMaxDriveTrain();
         this.controller = new XboxController(CONTROLLER_PORT);
         this.dashboard = new Dashboard(this.driveTrain);
         this.driveWithController = new DriveWithController(
@@ -34,6 +34,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
-        Util.convert(this.driveTrain).setAllModes(DISABLE_MODE);
+        this.driveTrain.setAllModes(DISABLE_MODE);
     }
 }

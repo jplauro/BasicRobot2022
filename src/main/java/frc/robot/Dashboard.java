@@ -5,6 +5,7 @@ import static frc.robot.Constants.Dashboard.*;
 import static frc.robot.Constants.Dashboard.Shuffleboard.*;
 import static frc.robot.Constants.DriveWithController.*;
 
+import java.util.EnumMap;
 import java.util.Map;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -16,14 +17,14 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.DriveWithController.DriveMode;
-import frc.robot.drivetrain.DriveTrain;
+import frc.robot.drivetrain.impl.CANSparkMaxDriveTrain;
 
 public class Dashboard {
     public enum DashboardType {
         SmartDashboard, Shuffleboard;
     }
 
-    private DriveTrain driveTrain;
+    private CANSparkMaxDriveTrain driveTrain;
     private ShuffleboardTab shuffleboardTab;
     private SendableChooser<DriveMode> driveModeChooser = new SendableChooser<>();
 
@@ -40,7 +41,7 @@ public class Dashboard {
     private double rotationAdjustment = ROTATION_ADJUSTMENT;
     private boolean squareInputs = SQUARE_INPUTS;
 
-    public Dashboard(DriveTrain driveTrain) {
+    public Dashboard(CANSparkMaxDriveTrain driveTrain) {
         this.driveTrain = driveTrain;
         this.driveModeChooser.setDefaultOption(DRIVE_MODE.toString(), DRIVE_MODE);
 
@@ -50,50 +51,49 @@ public class Dashboard {
             }
         }
 
-        switch (DASHBOARD_TYPE) {
-            case SmartDashboard:
+        new EnumMap<DashboardType, Runnable>(DashboardType.class) {{
+            put(DashboardType.SmartDashboard, () -> {
                 SmartDashboard.putNumber("deadband", DEADBAND);
                 SmartDashboard.putNumber("open_loop_ramp_rate", OPEN_LOOP_RAMP_RATE);
-                SmartDashboard.putData("drive_mode", this.driveModeChooser);
+                SmartDashboard.putData("drive_mode", driveModeChooser);
                 SmartDashboard.putNumber("speed_adjustment", SPEED_ADJUSTMENT);
                 SmartDashboard.putNumber("rotation_adjustment", ROTATION_ADJUSTMENT);
                 SmartDashboard.putBoolean("square_inputs", SQUARE_INPUTS);
 
-                this.deadbandEntry = SmartDashboard.getEntry("deadband");
-                this.openLoopRampRateEntry = SmartDashboard.getEntry("open_loop_ramp_rate");
-                this.speedAdjustmentEntry = SmartDashboard.getEntry("speed_adjustment");
-                this.rotationAdjustmentEntry = SmartDashboard.getEntry("rotation_adjustment");
-                this.squareInputsEntry = SmartDashboard.getEntry("square_inputs");
-                break;
-            case Shuffleboard:
-                this.shuffleboardTab = Shuffleboard.getTab(TAB_NAME);
-                SimpleWidget deadbandWidget = this.shuffleboardTab.add("deadband", DEADBAND);
-                SimpleWidget openLoopRampRateWidget = this.shuffleboardTab.add("open_loop_ramp_rate", OPEN_LOOP_RAMP_RATE);
-                ComplexWidget driveModeWidget = this.shuffleboardTab.add("drive_mode", this.driveModeChooser);
-                SimpleWidget speedAdjustmentWidget = this.shuffleboardTab.add("speed_adjustment", SPEED_ADJUSTMENT);
-                SimpleWidget rotationAdjustmentWidget = this.shuffleboardTab.add("rotation_adjustment", ROTATION_ADJUSTMENT);
-                SimpleWidget squaredInputsWidget = this.shuffleboardTab.add("square_inputs", SQUARE_INPUTS);
+                deadbandEntry = SmartDashboard.getEntry("deadband");
+                openLoopRampRateEntry = SmartDashboard.getEntry("open_loop_ramp_rate");
+                speedAdjustmentEntry = SmartDashboard.getEntry("speed_adjustment");
+                rotationAdjustmentEntry = SmartDashboard.getEntry("rotation_adjustment");
+                squareInputsEntry = SmartDashboard.getEntry("square_inputs");
+            });
+
+            put(DashboardType.Shuffleboard, () -> {
+                shuffleboardTab = Shuffleboard.getTab(TAB_NAME);
+                SimpleWidget deadbandWidget = shuffleboardTab.add("deadband", DEADBAND);
+                SimpleWidget openLoopRampRateWidget = shuffleboardTab.add("open_loop_ramp_rate", OPEN_LOOP_RAMP_RATE);
+                ComplexWidget driveModeWidget = shuffleboardTab.add("drive_mode", driveModeChooser);
+                SimpleWidget speedAdjustmentWidget = shuffleboardTab.add("speed_adjustment", SPEED_ADJUSTMENT);
+                SimpleWidget rotationAdjustmentWidget = shuffleboardTab.add("rotation_adjustment", ROTATION_ADJUSTMENT);
+                SimpleWidget squaredInputsWidget = shuffleboardTab.add("square_inputs", SQUARE_INPUTS);
 
                 if (AUTO_SETUP) {
                     deadbandWidget.withPosition(0, 0).withSize(1, 1).withWidget(BuiltInWidgets.kTextView);
-                    openLoopRampRateWidget.withPosition(0, 1).withSize(1, 1).withWidget(BuiltInWidgets.kTextView);
-                    driveModeWidget.withPosition(0, 2).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
-                    speedAdjustmentWidget.withPosition(0, 4).withSize(1, 1)
+                    openLoopRampRateWidget.withPosition(1, 0).withSize(1, 1).withWidget(BuiltInWidgets.kTextView);
+                    driveModeWidget.withPosition(2, 0).withSize(2, 1).withWidget(BuiltInWidgets.kComboBoxChooser);
+                    speedAdjustmentWidget.withPosition(4, 0).withSize(1, 1)
                     .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 1));
-                    rotationAdjustmentWidget.withPosition(0, 5).withSize(1, 1)
+                    rotationAdjustmentWidget.withPosition(5, 0).withSize(1, 1)
                     .withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 1));
-                    squaredInputsWidget.withPosition(0, 6).withSize(1, 1).withWidget(BuiltInWidgets.kToggleSwitch);
+                    squaredInputsWidget.withPosition(6, 0).withSize(1, 1).withWidget(BuiltInWidgets.kToggleSwitch);
                 }
                 
-                this.deadbandEntry = deadbandWidget.getEntry();
-                this.openLoopRampRateEntry = openLoopRampRateWidget.getEntry();
-                this.speedAdjustmentEntry = speedAdjustmentWidget.getEntry();
-                this.rotationAdjustmentEntry = rotationAdjustmentWidget.getEntry();
-                this.squareInputsEntry = squaredInputsWidget.getEntry();
-                break;
-            default:
-                throw new AssertionError();
-        }
+                deadbandEntry = deadbandWidget.getEntry();
+                openLoopRampRateEntry = openLoopRampRateWidget.getEntry();
+                speedAdjustmentEntry = speedAdjustmentWidget.getEntry();
+                rotationAdjustmentEntry = rotationAdjustmentWidget.getEntry();
+                squareInputsEntry = squaredInputsWidget.getEntry();
+            });
+        }}.get(DASHBOARD_TYPE).run();
     }
 
     public void execute() {
@@ -111,7 +111,7 @@ public class Dashboard {
 
         if (openLoopRampRate != this.openLoopRampRate) {
             this.openLoopRampRate = openLoopRampRate;
-            Util.convert(this.driveTrain).setAllOpenLoopRampRates(this.openLoopRampRate);
+            this.driveTrain.setAllOpenLoopRampRates(this.openLoopRampRate);
         }
     }
 

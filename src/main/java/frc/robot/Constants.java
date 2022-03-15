@@ -4,21 +4,19 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import frc.robot.Dashboard.DashboardType;
 import frc.robot.DriveWithController.DriveMode;
-import frc.robot.Util.DriveTrainType;
 import frc.robot.drivetrain.MotorMode;
-import frc.robot.drivetrain.DriveTrain.DriveTrainMode;
+import frc.robot.drivetrain.DriveTrain.ControlMode;
 
 public final class Constants {
     public static class DriveTrain {
-        public static final DriveTrainType DRIVE_TRAIN_TYPE = DriveTrainType.CANSparkMax;
-        public static final DriveTrainMode DRIVE_TRAIN_MODE = DriveTrainMode.GROUP;
+        public static final ControlMode CONTROL_MODE = ControlMode.GROUP;
         public static final double DEADBAND = 0.05;
         public static final double OPEN_LOOP_RAMP_RATE = 0.2;
         public static final int CURRENT_LIMIT = 75;
         public static final MotorMode IDLE_MODE = MotorMode.BRAKE;
         public static final MotorMode DISABLE_MODE = MotorMode.COAST;
 
-        public static class CANSparkMaxDriveTrain {
+        public static class CANSparkMax {
             public static final MotorType MOTOR_TYPE = MotorType.kBrushless;
         }
 
@@ -34,7 +32,7 @@ public final class Constants {
         public static final DashboardType DASHBOARD_TYPE = DashboardType.Shuffleboard;
 
         public static class Shuffleboard {
-            public static final String TAB_NAME = "SmartDashboard";
+            public static final String TAB_NAME = "Drive";
             public static final boolean AUTO_SETUP = true;
         }
     }
